@@ -8,6 +8,8 @@ const cookieParser = require('cookie-parser');
 const socketIo = require('socket.io');
 const swaggerUI = require('swagger-ui-express');
 const { createServer } = require('http');
+const mongoose = require('mongoose');
+const transactionsRoutes = require('./routes/transactions');
 
 const response = require('./middlewares/response');
 const passport = require('./middlewares/passport');
@@ -39,6 +41,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(trimmer());
 app.use(passport());
+app.use('/api', transactionsRoutes);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use((req, res, next) => {
   req.io = io;
